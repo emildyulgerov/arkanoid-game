@@ -49,6 +49,18 @@ export class InitCanvas {
         this.context.closePath();
     }
 
+    drawPaddle(x: number, y: number, w: number, h: number, color?: string):void{
+        if (color) {
+            this.context.fillStyle = color;
+        }
+        this.context.beginPath();
+        this.context.moveTo(x, y);
+        this.context.rect(x, y, w, h);
+        this.context.fill();
+        this.context.stroke();
+        this.context.closePath();
+    }
+
 
      moveBall() {
         this.circle.add(this.vel);
