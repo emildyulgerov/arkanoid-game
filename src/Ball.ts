@@ -1,11 +1,11 @@
-import { height, width, x, y } from ".";
+import { height, width} from ".";
 import { Brick } from "./Brick";
 import { Paddle } from "./Paddle";
 import { Vector } from "./Point";
 
 export class Ball {
-    public radius = 10;
-    public circle = new Vector(500, 500);
+    private radius = 10;
+    private circle = new Vector(500, 500);
     public alive = true;
     constructor(public context: CanvasRenderingContext2D,
         public vel: Vector,
@@ -47,25 +47,16 @@ export class Ball {
         }
     }
 
-    brickCheck(bricks: Brick[]){
-        for (let b of bricks){
-            if (this.circle.x > b.x && this.circle.x < b.x + b.width
-                && this.circle.y + this.radius > b.y
-                && this.circle.y - this.radius < b.y + b.height){
-                    if(this.sideBrickHit(b)){
-                        this.vel.x = -this.vel.x;
-                        console.log('sidehit')
-                    } else {
-                        this.vel.y = -this.vel.y 
-                        b.active = false;
-                    }
-                } 
-        }
-    }
-    sideBrickHit(brick: Brick): boolean{
-        return this.circle.y > brick.y && this.circle.y < brick.y + brick.height && this.circle.x >= brick.x && this.circle.x <= brick.x + brick.width;
-        //return this.circle.y > brick.y + this.vel.y && this.circle.y < brick.y + brick.height + this.vel.y;
-    }
-    
-        
+    brickCheck(bricks: Brick[]) {
+        bricks.forEach(brick => {
+            if (this.circle.x < brick.x + brick.width && 
+                this.circle.x + this.radius > brick.x  &&
+                this.circle.y < brick.y + brick.height&&
+                this.circle.y + this.radius > brick.y + brick.height 
+                ){      
+                brick.isActive = false;
+                this.vel.y = -this.vel.y;
+            }
+        });
+    }   
 }
