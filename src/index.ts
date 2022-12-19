@@ -1,6 +1,7 @@
 import { Ball } from "./Ball";
 import { Brick } from "./Brick";
 import { InitCanvas } from "./Canvas";
+import { Collision } from "./Collision";
 import { Paddle } from "./Paddle";
 import { Point, Vector } from "./Point";
 
@@ -35,6 +36,8 @@ let bricks = new Brick(context);
 
 let brickArr = bricks.createBricks();
 
+let collision = new Collision();
+
 start()
 function start(){
     const paddle = new Paddle(context, mouse.x, height - 100, 200, 50, 'skyblue');
@@ -44,11 +47,11 @@ function start(){
         alert('You won!');
         ball.alive = false;
     }
-    ball.brickCheck(brickArr);
+    collision.brickCheck(brickArr,ball);
     bricks.drawBricks();
     ball.drawBall();
     ball.moveBall();
-    ball.paddleCheck(paddle);
+    collision.paddleCheck(paddle,ball);
     paddle.drawPaddle(mouse.x);
     if (ball.alive){
         requestAnimationFrame(start);
